@@ -1,7 +1,7 @@
 import os
 import discord
 
-TOKEN = 'NzQ2NTkwNDQ2MjY3OTI0NTI0.X0CiiQ.hpJ9WICIIbCPYLtVMBU1334LGLM'
+TOKEN = 'npjs'
 
 client = discord.Client()
 
