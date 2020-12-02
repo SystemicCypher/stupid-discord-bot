@@ -1,4 +1,4 @@
-# Waifu Bot
+# lil' Bot
 ## This was a stupid idea...
 
 So every so often, I get bored with doing "useful" things or "practical" work that actually does something important and instead I decide to go fully off the deep end and create a project that shows that some people really shouldn't be given the power to create things.
