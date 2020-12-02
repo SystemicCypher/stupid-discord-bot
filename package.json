@@ -1,0 +1,28 @@
+{
+  "name": "stupid-discord-bot",
+  "version": "1.0.0",
+  "description": "A discord bot. It'll do things",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SystemicCypher/stupid-discord-bot.git"
+  },
+  "keywords": [
+    "dicord",
+    "bot",
+    "text"
+  ],
+  "author": "Austin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SystemicCypher/stupid-discord-bot/issues"
+  },
+  "homepage": "https://github.com/SystemicCypher/stupid-discord-bot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "nodemon": "^2.0.6"
+  }
+}
