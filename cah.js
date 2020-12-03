@@ -19,14 +19,14 @@ const game_handler = (args, message, channel) => {
             case 'join':
                 current_players.push(message.author)
                 channel.send(`${message.author.username} has joined the game!`)
+                console.log(current_players)
                 break
             case 'leave':
                 break
             case 'players':
                 var players = "The players currently in the game are: "
-                for(const player in current_players){
-                    console.log(player)
-                    players += player.username + ", "
+                for(var i = 0; i < current_players.length; i++){
+                    players += current_players[i].username + (current_players.length > 1 ? "" : ", ")
                 }
                 channel.send(players)
                 break
