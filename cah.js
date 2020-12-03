@@ -7,29 +7,85 @@ const cards_against_humanity = (state = {}, channel, players = []) => {
 
 }
 
-var game_state = {}
+const gameTitle = "Cards Against Humanity"
+
+var game_state = {
+    gameStarted : false,
+    cards_in_hands : [], // This is ordered by index - matched to index of player in current players
+    cards_played : [], // the cards currently in play
+}
 var current_players = []
 
 const game_handler = (args, message, channel) => {
     if (args.length < 2){
-        message.reply("You didn't specify a command!")
+        const low_command = new Discord.MessageEmbed()
+                                    .setTitle('Cards Against Humanity')
+                                    .setDescription("You didn't specify a command!\n\
+                                    Commands are:\n\
+                                    !cah join - to join the game\n\
+                                    !cah leave - to leave the game\n\
+                                    !cah players - to see who is in the game")
+        message.reply(low_command)
     }
     else{
         switch(args[1]){
+            /* 
+                Allows the user to join the game
+            */
             case 'join':
                 current_players.push(message.author)
-                channel.send(`${message.author.username} has joined the game!`)
-                console.log(current_players)
+                const join_embed = new Discord.MessageEmbed()
+                                        .setTitle(gameTitle)
+                                        .setDescription(`${message.author.username} has joined the game!`)
+                channel.send(join_embed)
                 break
+            /*
+                Allows the player to leave the game
+            */
             case 'leave':
+                current_players = current_players.filter(function(val, idx, arr){
+                    return val !== message.author
+                })
+                const leave_embed = new Discord.MessageEmbed()
+                                        .setTitle(gameTitle)
+                                        .setDescription(`${message.author.username} has left the game!`)
+                channel.send(leave_embed)
                 break
+            /*
+                Sends out the list of players
+            */
             case 'players':
-                var players = "The players currently in the game are: "
-                for(var i = 0; i < current_players.length; i++){
-                    players += current_players[i].username + (current_players.length > 1 ? "" : ", ")
+                if(current_players.length === 0){
+                    const player_embed = new Discord.MessageEmbed()
+                                                .setTitle(gameTitle)
+                                                .setDescription('Nobody is in the game right now...')
+                    channel.send(player_embed)
+                    break
                 }
-                channel.send(players)
-                break
+                else{
+                    var players = "The players currently in the game are: "
+                    for(var i = 0; i < current_players.length; i++){
+                        players += current_players[i].username + (current_players.length > 1 ? ", " : "")
+                    }
+                    const player_embed = new Discord.MessageEmbed()
+                                                .setTitle(gameTitle)
+                                                .setDescription(players)
+                    channel.send(player_embed)
+                    break
+                }
+            /*
+                Start the game
+            */
+            case 'start':
+                if(current_players.length < 3){
+                    const sad_embed = new Discord.MessageEmbed()
+                                            .setTitle(gameTitle)
+                                            .setDescription("There aren't enough players to start the game. :cry:")
+                    channel.send(sad_embed)
+                } else {
+                    channel.send("Starting game")
+                }
+                
         }
     }
 }

@@ -38,7 +38,7 @@ client.on('message', msg => {
                 channel.send(sheev.POWER_IMG)
                 msg.reply(sheev.POWER)
                 break
-            case "CAH":
+            case "cah":
                 game_handler(args,msg,channel)
                 break
         }
