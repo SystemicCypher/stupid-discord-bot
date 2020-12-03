@@ -1,5 +1,6 @@
 const { DiscordAPIError } = require('discord.js')
 const Discord = require('discord.js')
+const game_handler = require('./cah.js')
 const client = new Discord.Client()
 const ENV = require('./config.js')
 const sheev = require('./sheev.js')
@@ -37,12 +38,8 @@ client.on('message', msg => {
                 channel.send(sheev.POWER_IMG)
                 msg.reply(sheev.POWER)
                 break
-            case "game":
-                const gameembed = new Discord.MessageEmbed()
-                    .setTitle('A Game Embed')
-                    .setColor(0xaaaa00)
-                    .setDescription('This is a game')
-                channel.send(gameembed)
+            case "CAH":
+                game_handler(args,msg,channel)
                 break
         }
     }
