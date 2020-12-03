@@ -11,7 +11,7 @@ client.on('ready', () => {
   
 client.on('message', msg => {
     if (msg.content.startsWith('!')){
-        var args = msg.content.substring(1).split(" ")
+        var args = msg.content.substring(1).toLowerCase().split(" ")
         const cmd = args[0]
         const channel = msg.channel
 
