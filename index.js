@@ -3,6 +3,7 @@ const Discord = require('discord.js')
 const game_handler = require('./cah.js')
 const client = new Discord.Client()
 const ENV = require('./config.js')
+const pokemon_game = require('./pokemon.js')
 const sheev = require('./sheev.js')
 
 
@@ -40,6 +41,9 @@ client.on('message', msg => {
                 break
             case "cah":
                 game_handler(args,msg,channel)
+                break
+            case "pokemon":
+                pokemon_game(args, channel)
                 break
         }
     }
