@@ -24,7 +24,9 @@ const game_handler = (args, message, channel) => {
                                     Commands are:\n\
                                     !cah join - to join the game\n\
                                     !cah leave - to leave the game\n\
-                                    !cah players - to see who is in the game")
+                                    !cah players - to see who is in the game\n\
+                                    !cah start - starts the game\n\
+                                    !cah stop - stops the active game")
         message.reply(low_command)
     }
     else{
@@ -83,8 +85,28 @@ const game_handler = (args, message, channel) => {
                                             .setDescription("There aren't enough players to start the game. :cry:")
                     channel.send(sad_embed)
                 } else {
-                    channel.send("Starting game")
+                    const game_embed = new Discord.MessageEmbed()
+                                            .setTitle(gameTitle)
+                                            .setDescription("Starting game...")
+                    channel.send(game_embed)
+                    game_state.gameStarted = true
+
                 }
+            /* 
+                End the game
+            */
+            case 'stop':
+                var game_embed = new Discord.MessageEmbed()
+                                        .setTitle(gameTitle)
+                if(game_state.gameStarted){
+                    game_embed.setDescription("Stopping game!\nHope you had fun!")
+                    game_state.gameStarted = false
+                }
+                else{
+                    game_embed.setDescription("There's no game running right now!")
+                }
+                channel.send(game_embed)
+                
                 
         }
     }

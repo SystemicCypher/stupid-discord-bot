@@ -1,10 +1,10 @@
 const { DiscordAPIError } = require('discord.js')
 const Discord = require('discord.js')
-const game_handler = require('./cah.js')
+const game_handler = require('./games/cah.js')
 const client = new Discord.Client()
 const ENV = require('./config.js')
-const pokemon_game = require('./pokemon.js')
-const sheev = require('./sheev.js')
+const pokemon_game = require('./games/pokemon.js')
+const sheev = require('./memes/sheev.js')
 
 
 client.on('ready', () => {
