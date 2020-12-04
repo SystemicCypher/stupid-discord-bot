@@ -1,8 +1,10 @@
 const { DiscordAPIError } = require('discord.js')
 const Discord = require('discord.js')
+const game_handler = require('./games/cah.js')
 const client = new Discord.Client()
 const ENV = require('./config.js')
-const sheev = require('./sheev.js')
+const pokemon_game = require('./games/pokemon.js')
+const sheev = require('./memes/sheev.js')
 
 
 client.on('ready', () => {
@@ -37,12 +39,11 @@ client.on('message', msg => {
                 channel.send(sheev.POWER_IMG)
                 msg.reply(sheev.POWER)
                 break
-            case "game":
-                const gameembed = new Discord.MessageEmbed()
-                    .setTitle('A Game Embed')
-                    .setColor(0xaaaa00)
-                    .setDescription('This is a game')
-                channel.send(gameembed)
+            case "cah":
+                game_handler(args,msg,channel)
+                break
+            case "pokemon":
+                pokemon_game(args, channel)
                 break
         }
     }
