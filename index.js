@@ -5,6 +5,7 @@ const client = new Discord.Client()
 const ENV = require('./config.js')
 const pokemon_game = require('./games/pokemon.js')
 const sheev = require('./memes/sheev.js')
+const dice = require('./games/dice.js')
 
 
 client.on('ready', () => {
@@ -44,6 +45,9 @@ client.on('message', msg => {
                 break
             case "pokemon":
                 pokemon_game(args, channel)
+                break
+            case "dice":
+                dice(args, channel)
                 break
         }
     }
