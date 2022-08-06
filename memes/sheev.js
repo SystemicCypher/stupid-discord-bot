@@ -9,5 +9,4 @@ module.exports = {
     TREASON_IMG : "https://thumbs.gfycat.com/FirmAmpleFossa-small.gif",
     POWER : 'UNLIMITED POWER!!!!!',
     POWER_IMG : "https://thumbs.gfycat.com/AbsoluteComposedBagworm-size_restricted.gif"
-    
 }

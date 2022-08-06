@@ -1,20 +1,39 @@
-const Discord = require('discord.js')
+const Discord = require('discord.js');
+const fullcards = require('./data/full_set');
 /*
     The cards against humanity game
     it takes in a state, channel, and array of players
 */
 const cards_against_humanity = (state = {}, channel, players = []) => {
+};
 
-}
+const gameTitle = "Cards Against Humanity";
+var gamePacks = fullcards.map(pack => pack.name);
 
-const gameTitle = "Cards Against Humanity"
+function selectPack(selectedPack) {
+    return fullcards.filter(pack => pack.name === selectedPack);
+};
+
+function selectPacks(listPacks) {
+    listPacks.forEach(pac => {
+        const picked_pack = selectPack(pac);
+        game_state.white_cards.concat(picked_pack.white.map(card => card.text));
+        game_state.black_cards.concat(picked_pack.black.map(card => card.text));
+    });
+};
 
 var game_state = {
     gameStarted : false,
     cards_in_hands : [], // This is ordered by index - matched to index of player in current players
-    cards_played : [], // the cards currently in play
-}
-var current_players = []
+    cards_played : [], // the cards played
+    black_cards : [], // The black cards in this game
+    white_cards : [], // The white cards in this game
+    current_players : [], // The current players
+    clearCards : () => {
+        game_state.black_cards = [];
+        game_state.white_cards = [];
+    }
+};
 
 const game_handler = (args, message, channel) => {
     if (args.length < 2){
@@ -25,6 +44,7 @@ const game_handler = (args, message, channel) => {
                                     !cah join - to join the game\n\
                                     !cah leave - to leave the game\n\
                                     !cah players - to see who is in the game\n\
+                                    !cah packs - to see the list of packs\n\
                                     !cah start - starts the game\n\
                                     !cah stop - stops the active game")
         message.reply(low_command)
@@ -35,7 +55,7 @@ const game_handler = (args, message, channel) => {
                 Allows the user to join the game
             */
             case 'join':
-                current_players.push(message.author)
+                game_state.current_players.push(message.author)
                 const join_embed = new Discord.MessageEmbed()
                                         .setTitle(gameTitle)
                                         .setDescription(`${message.author.username} has joined the game!`)
@@ -45,7 +65,7 @@ const game_handler = (args, message, channel) => {
                 Allows the player to leave the game
             */
             case 'leave':
-                current_players = current_players.filter(function(val, idx, arr){
+                game_state.current_players = game_state.current_players.filter(function(val, idx, arr){
                     return val !== message.author
                 })
                 const leave_embed = new Discord.MessageEmbed()
@@ -57,7 +77,7 @@ const game_handler = (args, message, channel) => {
                 Sends out the list of players
             */
             case 'players':
-                if(current_players.length === 0){
+                if(game_state.current_players.length === 0){
                     const player_embed = new Discord.MessageEmbed()
                                                 .setTitle(gameTitle)
                                                 .setDescription('Nobody is in the game right now...')
@@ -66,8 +86,8 @@ const game_handler = (args, message, channel) => {
                 }
                 else{
                     var players = "The players currently in the game are: "
-                    for(var i = 0; i < current_players.length; i++){
-                        players += current_players[i].username + (current_players.length > 1 ? ", " : "")
+                    for(var i = 0; i < game_state.current_players.length; i++){
+                        players += game_state.current_players[i].username + (game_state.current_players.length > 1 ? ", " : "")
                     }
                     const player_embed = new Discord.MessageEmbed()
                                                 .setTitle(gameTitle)
@@ -79,7 +99,7 @@ const game_handler = (args, message, channel) => {
                 Start the game
             */
             case 'start':
-                if(current_players.length < 3){
+                if(game_state.current_players.length < 3){
                     const sad_embed = new Discord.MessageEmbed()
                                             .setTitle(gameTitle)
                                             .setDescription("There aren't enough players to start the game. :cry:")
@@ -99,14 +119,20 @@ const game_handler = (args, message, channel) => {
                 var game_embed = new Discord.MessageEmbed()
                                         .setTitle(gameTitle)
                 if(game_state.gameStarted){
-                    game_embed.setDescription("Stopping game!\nHope you had fun!")
-                    game_state.gameStarted = false
+                    game_embed.setDescription("Stopping game!\nHope you had fun!");
+                    game_state.gameStarted = false;
+                    game_state.clearCards();
                 }
                 else{
                     game_embed.setDescription("There's no game running right now!")
                 }
                 channel.send(game_embed)
-                
+
+            case 'packs':
+                var packs_embed = new Discord.MessageEmbed()
+                                        .setTitle("Card Packs Available");
+                packs_embed.setDescription(gamePacks.join('\n'));
+                channel.send(packs_embed);
                 
         }
     }
